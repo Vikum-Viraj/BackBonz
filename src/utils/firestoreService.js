@@ -15,51 +15,70 @@ const SESSIONS_COLLECTION = 'sessions';
 
 export const saveSession = async (userId, startTime, endTime, duration) => {
   try {
+    console.log('📝 Saving session for userId:', userId);
+    console.log('📝 Start time:', startTime);
+    console.log('📝 End time:', endTime);
+    console.log('📝 Duration:', duration);
+    
     const sessionsRef = collection(db, SESSIONS_COLLECTION);
-    const docRef = await addDoc(sessionsRef, {
+    const sessionData = {
       userId,
       startTime: Timestamp.fromDate(new Date(startTime)),
       endTime: Timestamp.fromDate(new Date(endTime)),
       duration, // in seconds
       createdAt: Timestamp.now(),
-    });
+    };
+    
+    console.log('📝 Session data to save:', sessionData);
+    
+    const docRef = await addDoc(sessionsRef, sessionData);
+    
+    console.log('✅ Session saved! Document ID:', docRef.id);
     return { id: docRef.id, success: true };
   } catch (error) {
-    console.error('Error saving session:', error);
+    console.error('❌ Error saving session:', error);
+    console.error('❌ Error code:', error.code);
+    console.error('❌ Error message:', error.message);
+    console.error('❌ Full error:', error);
     return { success: false, error };
   }
 };
 
 export const getTodaySessions = async (userId) => {
   try {
-    // Get start and end of today in UTC
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
-
     const sessionsRef = collection(db, SESSIONS_COLLECTION);
     const q = query(
       sessionsRef,
-      where('userId', '==', userId),
-      where('startTime', '>=', Timestamp.fromDate(today)),
-      where('startTime', '<', Timestamp.fromDate(tomorrow)),
-      orderBy('startTime', 'desc')
+      where('userId', '==', userId)
     );
 
     const querySnapshot = await getDocs(q);
     const sessions = [];
 
+    // Get today's date in local timezone (not UTC)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      sessions.push({
-        id: doc.id,
-        ...data,
-        startTime: data.startTime?.toDate(),
-        endTime: data.endTime?.toDate(),
-        createdAt: data.createdAt?.toDate(),
-      });
+      const startTime = data.startTime?.toDate();
+      
+      // Filter for today's sessions (client-side using local timezone)
+      if (startTime && startTime >= today && startTime < tomorrow) {
+        sessions.push({
+          id: doc.id,
+          ...data,
+          startTime: startTime,
+          endTime: data.endTime?.toDate(),
+          createdAt: data.createdAt?.toDate(),
+        });
+      }
     });
+
+    // Sort by startTime descending (client-side)
+    sessions.sort((a, b) => b.startTime - a.startTime);
 
     return sessions;
   } catch (error) {
