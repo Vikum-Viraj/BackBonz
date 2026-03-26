@@ -10,25 +10,13 @@
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  background: linear-gradient(180deg, #667eea 0%, #764ba2 50%, #5a4a8a 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   padding: 20px;
   position: relative;
   overflow: hidden;
-}
-
-.auth-container::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -10%;
-  width: 300px;
-  height: 300px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 50%;
-  pointer-events: none;
 }
 
 .auth-form {
@@ -324,13 +312,6 @@
 }
 
 @media (max-width: 400px) {
-  .auth-container::before {
-    width: 200px;
-    height: 200px;
-    top: -30%;
-    right: -5%;
-  }
-
   .auth-form {
     padding: 20px 18px;
   }

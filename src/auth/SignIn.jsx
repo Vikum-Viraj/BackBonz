@@ -28,7 +28,6 @@ function SignIn({ onSignInSuccess, onToggleForm }) {
     } catch (err) {
       const friendlyMessage = getFirebaseErrorMessage(err);
       setError(friendlyMessage);
-      toast.error(friendlyMessage);
       console.error('Sign in error:', err);
     } finally {
       setLoading(false);

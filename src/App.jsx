@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import SignIn from './auth/SignIn'
 import SignUp from './auth/SignUp'
+import WearTimer from './components/WearTimer'
 import { useAuth } from './context/AuthContext'
 import './App.css'
 
@@ -34,8 +35,7 @@ function App() {
         </div>
       </nav>
       <main className="main-content">
-        <h2>Welcome, {user.email}!</h2>
-        <p>You are successfully logged in to BackBonz.</p>
+        <WearTimer user={user} />
       </main>
     </div>
   )

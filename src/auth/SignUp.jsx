@@ -16,9 +16,10 @@ function SignUp({ onSignUpSuccess, onToggleForm }) {
     e.preventDefault();
     setError('');
 
-    //const msg = 'Passwords do not match. Please try again.';
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      const msg = 'Passwords do not match. Please try again.';
       setError(msg);
-      toast.error(msg);
       return;
     }
 
@@ -26,7 +27,6 @@ function SignUp({ onSignUpSuccess, onToggleForm }) {
     if (password.length < 6) {
       const msg = 'Password must be at least 6 characters long.';
       setError(msg);
-      toast.error(msg);
       return;
     }
 
@@ -45,9 +45,10 @@ function SignUp({ onSignUpSuccess, onToggleForm }) {
     } catch (err) {
       const friendlyMessage = getFirebaseErrorMessage(err);
       setError(friendlyMessage);
-      toast.error(friendlyM
-    } catch (err) {
-      setError(err.message);
+      // Show toast only for email already registered error
+      if (err?.code === 'auth/email-already-in-use') {
+        toast.error(friendlyMessage);
+      }
       console.error('Sign up error:', err);
     } finally {
       setLoading(false);
