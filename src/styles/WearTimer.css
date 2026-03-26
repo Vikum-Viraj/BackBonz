@@ -1,0 +1,258 @@
+.wear-timer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f8f9fa 0%, #f0f2f5 100%);
+}
+
+/* Timer Card */
+.timer-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Timer Display */
+.timer-display {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.timer-value {
+  font-size: 72px;
+  font-weight: 800;
+  color: #667eea;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 4px;
+  text-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.timer-label {
+  font-size: 14px;
+  color: #999;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* Timer Controls */
+.timer-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 12px;
+  border: none;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-height: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  font-size: 28px;
+  display: block;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
+}
+
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
+  opacity: 0.8;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  opacity: 1;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.25);
+}
+
+.btn-danger:hover:not(:disabled) {
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Timer Status */
+.timer-status {
+  display: flex;
+  justify-content: center;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.status-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-running {
+  color: #22863a;
+  background: #f0fff4;
+  animation: pulse 2s infinite;
+}
+
+.status-paused {
+  color: #0066cc;
+  background: #f1f8ff;
+}
+
+.status-idle {
+  color: #666;
+  background: #f5f5f5;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .wear-timer-container {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .timer-card {
+    padding: 32px 20px;
+    border-radius: 16px;
+  }
+
+  .timer-value {
+    font-size: 56px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .timer-label {
+    font-size: 12px;
+  }
+
+  .timer-controls {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 14px 10px;
+    font-size: 12px;
+    min-height: 90px;
+  }
+
+  .btn-icon {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 400px) {
+  .timer-card {
+    padding: 24px 16px;
+  }
+
+  .timer-value {
+    font-size: 48px;
+    margin-bottom: 6px;
+  }
+
+  .timer-controls {
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 12px 8px;
+    min-height: 80px;
+    font-size: 11px;
+  }
+
+  .btn-icon {
+    font-size: 20px;
+  }
+
+  .timer-display {
+    margin-bottom: 32px;
+  }
+}

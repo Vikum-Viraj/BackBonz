@@ -1,8 +1,8 @@
 import { formatTime, formatDuration } from '../utils/firestoreService';
 import './SessionCard.css';
 
-function SessionCard({ session, onDelete }) {
-  const { id, startTime, endTime, duration } = session;
+function SessionCard({ session }) {
+  const { startTime, endTime, duration } = session;
 
   return (
     <div className="session-card">
@@ -18,15 +18,6 @@ function SessionCard({ session, onDelete }) {
           <span className="label">Duration:</span> {formatDuration(duration)}
         </span>
       </div>
-      {onDelete && (
-        <button
-          className="btn-delete"
-          onClick={() => onDelete(id)}
-          title="Delete session"
-        >
-          ✕
-        </button>
-      )}
     </div>
   );
 }
