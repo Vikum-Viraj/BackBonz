@@ -1,7 +1,12 @@
-import { formatTime, formatDuration } from '../utils/firestoreService';
+import { formatDuration } from '../utils/firestoreService';
+import SessionCard from './SessionCard';
 import './SessionsList.css';
 
-function SessionsList({ sessions = [] }) {
+function SessionsList({ sessions = [], onDeleteSession }) {
+  const calculateTotalDuration = () => {
+    return sessions.reduce((sum, session) => sum + session.duration, 0);
+  };
+
   return (
     <div className="sessions-container">
       <div className="sessions-header">
@@ -16,27 +21,20 @@ function SessionsList({ sessions = [] }) {
       ) : (
         <div className="sessions-list">
           {sessions.map((session) => (
-            <div key={session.id} className="session-item">
-              <div className="session-time-range">
-                <span className="session-time">
-                  {formatTime(session.startTime)} - {formatTime(session.endTime)}
-                </span>
-              </div>
-              <div className="session-duration">
-                {formatDuration(session.duration)}
-              </div>
-            </div>
+            <SessionCard
+              key={session.id}
+              session={session}
+              onDelete={onDeleteSession}
+            />
           ))}
 
           {/* Total Duration for Today */}
-          {sessions.length > 0 && (
-            <div className="sessions-total">
-              <span>Total Duration:</span>
-              <span className="total-value">
-                {formatDuration(sessions.reduce((sum, s) => sum + s.duration, 0))}
-              </span>
-            </div>
-          )}
+          <div className="sessions-total">
+            <span>Total Duration Today:</span>
+            <span className="total-value">
+              {formatDuration(calculateTotalDuration())}
+            </span>
+          </div>
         </div>
       )}
     </div>

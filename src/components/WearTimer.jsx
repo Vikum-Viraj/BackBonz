@@ -1,26 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useWearTimer } from '../hooks/useWearTimer';
-import { saveSession, getTodaySessions, formatDuration, formatTime } from '../utils/firestoreService';
+import { useSessionManager } from '../hooks/useSessionManager';
+import { formatDuration } from '../utils/firestoreService';
 import SessionsList from './SessionsList';
 import { toast } from 'react-toastify';
 import './WearTimer.css';
 
 function WearTimer({ user }) {
   const timer = useWearTimer();
-  const [sessions, setSessions] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { sessions, loading, loadSessions, handleSaveSession, handleDeleteSession } = useSessionManager(user);
 
   // Load today's sessions on component mount
   useEffect(() => {
     loadSessions();
-  }, [user?.uid]);
-
-  const loadSessions = async () => {
-    if (user?.uid) {
-      const todaySessions = await getTodaySessions(user.uid);
-      setSessions(todaySessions);
-    }
-  };
+  }, [user?.uid, loadSessions]);
 
   const handleStart = () => {
     timer.start();
@@ -35,35 +28,23 @@ function WearTimer({ user }) {
   };
 
   const handleStop = async () => {
-    setLoading(true);
     try {
       const sessionData = timer.stop();
 
-      if (sessionData && user?.uid) {
+      if (sessionData) {
         // Calculate actual start and end times based on elapsed seconds
         const endTime = new Date();
         const startTime = new Date(endTime.getTime() - sessionData.duration * 1000);
 
-        const result = await saveSession(
-          user.uid,
-          startTime,
-          endTime,
-          sessionData.duration
-        );
+        const success = await handleSaveSession(startTime, endTime, sessionData.duration);
 
-        if (result.success) {
+        if (success) {
           toast.success(`Session saved! ${formatDuration(sessionData.duration)}`);
-          // Reload sessions
-          await loadSessions();
-        } else {
-          toast.error('Failed to save session');
         }
       }
     } catch (error) {
       console.error('Error stopping timer:', error);
       toast.error('Error saving session');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -118,7 +99,7 @@ function WearTimer({ user }) {
       </div>
 
       {/* Today's Sessions */}
-      <SessionsList sessions={sessions} />
+      <SessionsList sessions={sessions} onDeleteSession={handleDeleteSession} />
     </div>
   );
 }

@@ -64,42 +64,6 @@
   gap: 12px;
 }
 
-.session-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  background: linear-gradient(135deg, #f8f9ff 0%, #f0f2f5 100%);
-  border-radius: 12px;
-  border-left: 4px solid #667eea;
-  transition: all 0.2s ease;
-}
-
-.session-item:hover {
-  transform: translateX(4px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-}
-
-.session-time-range {
-  flex: 1;
-}
-
-.session-time {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
-}
-
-.session-duration {
-  font-size: 16px;
-  font-weight: 800;
-  color: #667eea;
-  font-family: 'Courier New', monospace;
-  min-width: 80px;
-  text-align: right;
-}
-
 /* Sessions Total */
 .sessions-total {
   display: flex;
@@ -108,10 +72,9 @@
   padding: 16px;
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
   border-radius: 12px;
-  margin-top: 12px;
+  margin-top: 20px;
   border-top: 2px solid #e0e0e0;
   padding-top: 20px;
-  margin-top: 20px;
 }
 
 .sessions-total span:first-child {
@@ -147,20 +110,6 @@
     gap: 10px;
   }
 
-  .session-item {
-    padding: 14px;
-    font-size: 13px;
-  }
-
-  .session-time {
-    font-size: 13px;
-  }
-
-  .session-duration {
-    font-size: 14px;
-    min-width: 70px;
-  }
-
   .total-value {
     font-size: 20px;
   }
@@ -180,17 +129,8 @@
     padding: 3px 10px;
   }
 
-  .session-item {
-    padding: 12px;
-    border-left-width: 3px;
-  }
-
-  .session-time {
-    font-size: 12px;
-  }
-
-  .session-duration {
-    font-size: 13px;
+  .total-value {
+    font-size: 18px;
   }
 
   .sessions-total {
@@ -198,6 +138,8 @@
     text-align: center;
     gap: 8px;
     padding: 14px;
+  }
+}
   }
 
   .sessions-total span:first-child {
